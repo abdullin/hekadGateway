@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>HekadGateway</id>
+        <version>1.0.0</version>
+        <authors>Rinat Abdullin</authors>
+        <owners>AgileHarbor</owners>
+        <licenseUrl>https://github.com/agileharbor/messageVault/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/agileharbor/messageVault</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Assembly for pushing data to remote Hekad process.</description>
+        <copyright>AgileHarbor</copyright>
+        <dependencies>
+            <group targetFramework=".NETFramework4.5">
+                <dependency id="Serilog" version="1.4.102" />
+                <dependency id="StatsdClient" version="1.0.0.16" />
+                <dependency id="Newtonsoft.Json" version="5.0.8" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\HekadGateway.dll" target="lib\HekadGateway.dll" />
+        <file src="bin\HekadGateway.pdb" target="lib\HekadGateway.pdb" />        
+    </files>
+</package>

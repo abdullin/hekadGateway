@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HekadGateway", "HekadGateway\HekadGateway.csproj", "{20599F85-7908-4955-9C53-C308E35ACF12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48DA6F6A-2404-4A44-91DC-FDF1A57E598B}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20599F85-7908-4955-9C53-C308E35ACF12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20599F85-7908-4955-9C53-C308E35ACF12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20599F85-7908-4955-9C53-C308E35ACF12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20599F85-7908-4955-9C53-C308E35ACF12}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

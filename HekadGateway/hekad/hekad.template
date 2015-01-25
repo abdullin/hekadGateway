@@ -1,0 +1,45 @@
+# don't include Unicode signature (Advanced Save -> unicode 8 without signature)
+
+
+
+[GELFLogInput]
+type = "LogstreamerInput"
+log_directory = "$LOG_DIR$"
+file_match = '(?P<Year>\d{4})(?P<Month>\d{2})(?P<Day>\d{2})\.log'
+priority = ["Year", "Month", "Day"]
+decoder = "GraylogDecoder"
+
+[GraylogDecoder]
+type = "SandboxDecoder"
+filename = "$WORKING_DIR$/graylog_extended.lua"
+
+    [GraylogDecoder.config]
+    type = "gelf"
+    payload_keep = true
+
+
+# forwards to heka
+[TcpOutput]
+
+address = "$SERVER_URL$:5565"
+#local_address = "127.0.0.1"
+encoder="ProtobufEncoder"
+message_matcher = "(Logger != 'hekad') "
+use_tls = true
+
+[TcpOutput.tls]
+server_name = "$SERVER_URL$"
+cert_file = "$WORKING_DIR$/client.crt"
+key_file = "$WORKING_DIR$/client.key"
+root_cafile = "$WORKING_DIR$/ca.crt"
+
+[StatsdInput]
+# aggregate stats on port 8125
+address = "127.0.0.1:8125"
+# forward them here
+stat_accum_name = "StatAccumInput"
+
+[StatAccumInput]
+ticker_interval = 5
+emit_in_payload = true
+message_type="stat_metric"
