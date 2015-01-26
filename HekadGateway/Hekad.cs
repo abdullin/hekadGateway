@@ -19,12 +19,9 @@ namespace HekadGateway
 	{
 		private readonly Thread _thread;
 
-		public LoggerConfiguration LoggerConfiguration{ get; private set; }
-
-		private Hekad( Thread thread, LoggerConfiguration loggerConfiguration )
+		private Hekad( Thread thread )
 		{
 			_thread = thread;
-			LoggerConfiguration = loggerConfiguration;
 		}
 
 		public static Hekad ConfigureAndLaunch(
@@ -34,11 +31,13 @@ namespace HekadGateway
 			string serverUrl,
 			string serverCertificateAuthority,
 			string certificate,
-			string privateKey )
+			string privateKey,
+			LoggerConfiguration loggerConfiguration,
+			LogEventLevel minLevel = LogEventLevel.Information)
 		{
 			KillOldHekad();
 			ConfigureStatsD( deployment, instance );
-			var loggerConfiguration = ConfigureLogging( instance, deployment, logPath );
+			ConfigureLogging( instance, deployment, logPath, loggerConfiguration, minLevel );
 
 			var workingDir = GetTempFolder();
 			ExtractResources( workingDir, serverCertificateAuthority, certificate, privateKey );
@@ -46,7 +45,7 @@ namespace HekadGateway
 			var thread = new Thread( () => RunHekad( logPath, workingDir, serverUrl ) );
 			thread.Start();
 
-			return new Hekad( thread, loggerConfiguration );
+			return new Hekad( thread );
 		}
 
 		private static void RunHekad( string logPath, string workingFolder, string serverUrl )
@@ -138,24 +137,14 @@ namespace HekadGateway
 			// do nothing for now.
 		}
 
-		private static LoggerConfiguration ConfigureLogging(
-			string instance,
-			string deployment,
-			string logPath,
-			LogEventLevel minLevel = LogEventLevel.Information
-			)
+		private static void ConfigureLogging( string instance, string deployment, string logPath, LoggerConfiguration configuration, LogEventLevel minLevel )
 		{
 			var logFile = Path.Combine( logPath, "{Date}.log" );
 
 			var formatter = new GelfFormatter( instance, deployment );
 			var fileSink = new RollingFileSink( logFile, formatter, null, null, new UTF8Encoding( false ) );
 
-			var loggerConfiguration = new LoggerConfiguration()
-				.MinimumLevel.Is( minLevel )
-				.WriteTo.Sink( fileSink );
-			Log.Logger = loggerConfiguration
-				.CreateLogger();
-			return loggerConfiguration;
+			configuration.WriteTo.Sink( fileSink, restrictedToMinimumLevel: minLevel );
 		}
 
 		public static void ConfigureStatsD( string deployment, string instance )

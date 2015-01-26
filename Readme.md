@@ -16,7 +16,9 @@ _hekad = Hekad.ConfigureAndLaunch(
 				"logs.yourserver.com",
 				authority,
 				certificate,
-				privateKey);
+				privateKey,
+				loggerConfiguration,
+				minLevel);
 ```
 
 **Important**: you would need to run your process as Admin (elevated for WorkerRole)
